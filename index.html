@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Time Zones</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .clock {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 30px;
+      width: 260px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      transition: transform .2s;
+    }
+
+    .clock:hover {
+      transform: translateY(-4px);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #60a5fa;
+    }
+
+    .time {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .date {
+      font-size: 1rem;
+      color: #cbd5e1;
+    }
+
+    .timezone {
+      margin-top: 15px;
+      color: #94a3b8;
+      font-size: .95rem;
+    }
+
+    @media (max-width: 850px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="clock">
+    <h2>🇺🇸 Eastern</h2>
+    <div class="time" id="et-time"></div>
+    <div class="date" id="et-date"></div>
+    <div class="timezone">New York</div>
+  </div>
+
+  <div class="clock">
+    <h2>🇺🇸 Pacific</h2>
+    <div class="time" id="pt-time"></div>
+    <div class="date" id="pt-date"></div>
+    <div class="timezone">Los Angeles</div>
+  </div>
+
+  <div class="clock">
+    <h2>🇬🇧 United Kingdom</h2>
+    <div class="time" id="uk-time"></div>
+    <div class="date" id="uk-date"></div>
+    <div class="timezone">London</div>
+  </div>
+
+</div>
+
+<script>
+function updateClock(timeId, dateId, timeZone) {
+
+  const now = new Date();
+
+  const time = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  }).format(now);
+
+  const date = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  }).format(now);
+
+  document.getElementById(timeId).textContent = time;
+  document.getElementById(dateId).textContent = date;
+}
+
+function refresh() {
+  updateClock("et-time", "et-date", "America/New_York");
+  updateClock("pt-time", "pt-date", "America/Los_Angeles");
+  updateClock("uk-time", "uk-date", "Europe/London");
+}
+
+refresh();
+setInterval(refresh, 1000);
+</script>
+
+</body>
+</html>
